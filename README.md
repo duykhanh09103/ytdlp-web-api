@@ -8,6 +8,7 @@ A yt-dlp api wrapper.
 
 1. Clone the repository
 2. Install yt-dlp and put it in PATH
+(optional) Install ffmpeg and put it in PATH
 3. run ```npm i ``` to install the dependencies
 4. run ```node index.js```
 
