@@ -48,6 +48,10 @@ paths:
           schema:
             type: string
       responses:
+        '200':
+          description: Video downloaded successfully
+          schema:
+            type: file
         '400':
           description: Invalid request
         '404':
