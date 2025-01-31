@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const { execSync, ChildProcess } = require("node:child_process");
 const fs = require("node:fs");
 
-
+app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 async function getDB() {
