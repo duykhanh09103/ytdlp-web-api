@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const { execSync, ChildProcess } = require("node:child_process");
 const fs = require("node:fs");
 
-
+app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 
 async function getDB() {
@@ -63,7 +63,7 @@ app.get("/download/*", async(req, res) => {
                 let file = (await db.data.Download).find((download) => {
                     return download.filename.startsWith(`output-${ytTitle}.`);
                   });
-                res.redirect('/redownload/' + file.id);
+                  res.render(__dirname + "/public/index",{fileID: file.id})
                 return;
             }
         res.status(502).send("Server is having external crisis")
@@ -73,7 +73,7 @@ app.get("/download/*", async(req, res) => {
         let fileID = Date.now();
         await db.data.Download.push({id: fileID, filename: `output-${ytTitle}.${ext}`});
         await db.write();
-        res.download(__dirname + `/downloads/output-${ytTitle}.${ext}`);
+        res.render(__dirname + "/public/index",{fileID: fileID})
         return;
         }
         let ytTitle = await execSync(`yt-dlp --get-title "${ytLink}" --no-warnings`).toString().replace("\n","").replace("\r","").replace("\t","").replace(".","");
@@ -100,7 +100,7 @@ app.get("/download/*", async(req, res) => {
                   });
                 if(!file){return console.log("no File found!"),res.status(404).send("File not found");}  
                 console.log(file)
-                res.redirect('/redownload/' + file.id);
+                res.render(__dirname + "/public/index",{fileID: file.id})
                 return;
             }
         return res.status(502).send("Server is having external crisis");
@@ -109,7 +109,7 @@ app.get("/download/*", async(req, res) => {
             let fileID = Date.now();
             await db.data.Download.push({id: fileID, filename: `output-${ytTitle}.${ext}`});
             await db.write();
-            res.download(__dirname + `/downloads/output-${ytTitle}.${ext}`);
+            res.render(__dirname + "/public/index",{fileID: fileID})
             return;
     }
 
