@@ -17,7 +17,7 @@ A yt-dlp api wrapper.
 1. Clone the repository
 2. Install python3
 3. run ```npm i``` or ```bun install```
-4. run ``` node index(linux).js``` or ```bun index(linux).js```
+4. run ``` node "index(linux).js"``` or ```bun "index(linux).js"```
 
 
 ## How to change the default port
