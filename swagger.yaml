@@ -1,0 +1,72 @@
+openapi: 3.0.3
+info:
+  title: yt-dlp wapper api
+  description: yt-dlp wrapper api... that's it
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+paths:
+  /download/{type}:
+    get:
+      summary: Download a video
+      description: Download a video from a given url
+      parameters:
+        - name: type
+          in: path
+          description: type of platform.(currently only support youtube)
+          required: true
+          schema:
+            type: string
+        - name: link
+          in: query
+          description: link of the video
+          required: true
+          schema:
+            type: string
+        - name: preset
+          in: query
+          description: if you want to use a preset or not.
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Video downloaded successfully
+        '400':
+          description: Bad request
+        '502':
+          description: Server having external crisis
+  /redownload/{id}:
+    get:
+      summary: Re-download a video
+      description: Re-download a video from a given id
+      parameters:
+        - name: id
+          in: path
+          description: id of the video
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid request
+        '404':
+          description: File not found
+  /delete/{id}:
+    post:
+      summary: Delete a File
+      description: Delete a file from a given id
+      parameters:
+        - name: id
+          in: path
+          description: id of the video
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: File deleted successfully
+        '400':
+          description: Invalid request
+        '404':
+          description: File not found
