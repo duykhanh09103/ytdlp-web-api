@@ -4,7 +4,7 @@ info:
   description: yt-dlp wrapper api... that's it
   version: 1.0.0
 servers:
-  - url: http://localhost:8000
+  - url: https://ytdlp_api.aboutme.works
 paths:
   /download/{type}:
     get:
