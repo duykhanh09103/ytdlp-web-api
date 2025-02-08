@@ -4,6 +4,8 @@ Basic api wrapper for yt-dlp
 
 A yt-dlp api wrapper.
 
+## Demo
+check out this https://ytdlp-simple-api.apidocumentation.com/reference
 # Getting Started
 ## For window
 1. Clone the repository
