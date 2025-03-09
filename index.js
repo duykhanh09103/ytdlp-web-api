@@ -41,7 +41,6 @@ async function ytdlpDownload(YT_link, params, id) {
         fs.readdirSync(downloadFolder).forEach(file => {
             if (file.includes(ytid)) { fileNameArray.push(file) }
         });
-        if(fileNameArray.length=0){return false;}
         let status = db.data.Download.findIndex((download) => { return download.id == id })
         if (status === -1) { return false; }
         db.data.Download[status] = { id: id, filename: fileNameArray[0], status: true,ytid:ytid }
