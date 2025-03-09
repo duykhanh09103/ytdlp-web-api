@@ -28,6 +28,7 @@ async function ytdlpDownload(YT_link, params, id) {
     if (ytid === null) { return false; }
     if (YT_link === null) { return false; }
     let output = exec(`python ${ytdlpExecutable} ${ytid} ${params} -o "./downloads/output-${ytid}.%(ext)s" --audio-multistreams --no-playlist`)
+    console.log(`python ${ytdlpExecutable} ${ytid} ${params} -o "./downloads/output-${ytid}.%(ext)s" --audio-multistreams --no-playlist`)
     output.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
     });
@@ -36,7 +37,7 @@ async function ytdlpDownload(YT_link, params, id) {
         fs.readdirSync(downloadFolder).forEach(file => {
             if (file.includes(ytid)) { fileNameArray.push(file) }
         });
-        if(fileNameArray.length<0){return false;}
+        if(fileNameArray.length=0){return false;}
         let status = db.data.Download.findIndex((download) => { return download.id == id })
         if (status === -1) { return false; }
         db.data.Download[status] = { id: id, filename: fileNameArray[0], status: true,ytid:ytid }
