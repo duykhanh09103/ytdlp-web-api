@@ -96,8 +96,24 @@ paths:
                     example: "dQw4w9WgXcQ"
         '400':
           description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File not found!"
         '404':
-          description: Download not found
+          description: File not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Invalid Request"
 
   /redownload/{ID}:
     get:
@@ -130,8 +146,24 @@ paths:
                     example: "File is still downloading, please wait!"
         '400':
           description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File not found!"
         '404':
           description: File not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Invalid Request"
 
   /delete/{ID}:
     post:
@@ -157,5 +189,21 @@ paths:
                     example: "File Deleted"
         '400':
           description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Invalid Request"
         '404':
           description: File not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File not found!"
