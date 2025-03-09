@@ -1,4 +1,4 @@
-Basic api wrapper for yt-dlp
+Basic api wrapper for yt-dlp! Try it out at https://ytdlpwebapi.apidocumentation.com/reference
 
 ## Description
 
