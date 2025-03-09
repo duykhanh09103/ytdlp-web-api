@@ -1,76 +1,161 @@
-openapi: 3.0.3
+openapi: 3.0.0
 info:
-  title: yt-dlp wapper api
-  description: yt-dlp wrapper api... that's it
+  title: Ytdlp wrapper api
+  description: api that download youtube video using ytdlp
   version: 1.0.0
 servers:
-  - url: https://ytdlp_api.aboutme.works
+  - url: 'http://localhost:8000'
 paths:
-  /download/{type}:
+  /download:
     get:
-      summary: Download a video
-      description: Download a video from a given url
+      summary: Download YouTube video
+      description: Initiates download of a YouTube video with optional presets or parameters
       parameters:
-        - name: type
-          in: path
-          description: type of platform.(currently only support youtube)
-          required: true
-          schema:
-            type: string
         - name: link
           in: query
-          description: link of the video
           required: true
+          description: YouTube video URL
           schema:
             type: string
+            example: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
         - name: preset
           in: query
-          description: if you want to use a preset or not.
           required: false
+          description: Whether to use default preset configuration
           schema:
             type: boolean
+            default: false
+        - name: params
+          in: query
+          required: false
+          description: Additional yt-dlp parameters
+          schema:
+            type: string
+            example: "-f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4'"
       responses:
-        '200':
-          description: Video downloaded successfully
+        '202':
+          description: Download initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "Downloading..."
+                  message:
+                    type: string
+                    example: "Got the request, file is now downloading."
+                  id:
+                    type: number
+                    example: 1644841203000
+                  ytid:
+                    type: string
+                    example: "dQw4w9WgXcQ"
         '400':
           description: Bad request
-        '502':
-          description: Server having external crisis
-  /redownload/{id}:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Invalid Request"
+  
+  /status/{ID}:
     get:
-      summary: Re-download a video
-      description: Re-download a video from a given id
+      summary: Check download status
+      description: Checks the status of a download using its ID
       parameters:
-        - name: id
+        - name: ID
           in: path
-          description: id of the video
           required: true
+          description: Download ID
           schema:
             type: string
       responses:
         '200':
-          description: Video downloaded successfully
-          schema:
-            type: file
+          description: Success response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    example: 1644841203000
+                  filename:
+                    type: string
+                    example: "output-dQw4w9WgXcQ.mp4"
+                  status:
+                    type: boolean
+                    example: true
+                  ytid:
+                    type: string
+                    example: "dQw4w9WgXcQ"
         '400':
-          description: Invalid request
+          description: Bad request
+        '404':
+          description: Download not found
+
+  /redownload/{ID}:
+    get:
+      summary: Re-download a file
+      description: Download a file that was previously processed, using its ID
+      parameters:
+        - name: ID
+          in: path
+          required: true
+          description: Download ID
+          schema:
+            type: string
+      responses:
+        '200':
+          description: File download response
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '202':
+          description: File still downloading
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File is still downloading, please wait!"
+        '400':
+          description: Bad request
         '404':
           description: File not found
-  /delete/{id}:
+
+  /delete/{ID}:
     post:
-      summary: Delete a File
-      description: Delete a file from a given id
+      summary: Delete a download
+      description: Delete a downloaded file and remove it from the database
       parameters:
-        - name: id
+        - name: ID
           in: path
-          description: id of the video
           required: true
+          description: Download ID
           schema:
             type: string
       responses:
         '200':
-          description: File deleted successfully
+          description: Success response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File Deleted"
         '400':
-          description: Invalid request
+          description: Bad request
         '404':
           description: File not found
