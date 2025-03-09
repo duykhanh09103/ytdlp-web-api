@@ -32,8 +32,12 @@ async function ytdlpDownload(YT_link, params, id) {
     output.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
     });
-
-    output.on("close", async () => {
+    output.stderr.on('data', (data) => {
+        console.log(`stderr: ${data}`);
+    });
+    output.on("close", async (code) => {
+        console.log(code)
+        if(code===1){return false;}
         fs.readdirSync(downloadFolder).forEach(file => {
             if (file.includes(ytid)) { fileNameArray.push(file) }
         });
