@@ -37,7 +37,7 @@ async function ytdlpDownload(YT_link, params, id) {
     });
     output.on("close", async (code) => {
         console.log(code)
-        if(code===1){return false;}
+        if(code===1){return db.data.Download = db.data.Download.filter(item => item.id != id),await db.write();}
         fs.readdirSync(downloadFolder).forEach(file => {
             if (file.includes(ytid)) { fileNameArray.push(file) }
         });
